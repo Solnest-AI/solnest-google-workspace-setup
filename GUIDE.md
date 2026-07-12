@@ -46,7 +46,8 @@ Work through Phases 0–6 in order.
    - **Windows (PowerShell):** `powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"`
    - Then re-open the terminal and confirm with `uvx --version`.
 
-✅ **Done when:** `uvx --version` prints a version number.
+✅ **Done when:** the consent screen is configured and **Publishing status says "In production."**
+If it still says "Testing," go back and publish it — otherwise this breaks in 7 days.
 
 ---
 
@@ -108,15 +109,30 @@ Enable all **12**:
 3. Fill in **App name** (e.g. `Workspace MCP`), your email as **User support email**, and your email
    again under **Developer contact**. Skip logo/domains. Save through the steps.
 4. **If you chose External:** on the **Audience** / OAuth consent screen page you'll see a
-   **Publishing status**. Do **one** of these:
-   - Add yourself as a **Test user** (Audience → Test users → add your email), **or**
-   - Click **Publish app** → confirm.
+   **Publishing status**. Click **"Publish app" → confirm.** It must say **In production**.
 
-> ⚠️ **IMPORTANT — the #1 thing that breaks this later:** If your app stays in **"Testing"** status,
-> Google **expires your login every 7 days** and you'll have to re-authenticate weekly. To avoid that,
-> click **"Publish app"** (Publishing status → In production). Since it's your own app used only by
-> you, you can ignore the "unverified app" warning — when authorizing, click **Advanced → Go to
-> {app name} (unsafe)**. That warning is expected and safe *for your own app*.
+   > **Do NOT just add yourself as a Test user and stop there.** It looks like it works, then it
+   > breaks a week later. This is the single most important step on this page.
+
+> ⚠️ **THIS IS THE STEP THAT DECIDES WHETHER IT KEEPS WORKING.**
+>
+> **If your app stays in "Testing" status, Google kills your login every 7 days.** You'll be
+> re-authenticating once a week forever, and it will feel like the tool is broken. It isn't — it's
+> the publishing status.
+>
+> **Set Publishing status to "In production" and the connection stops expiring.** Once published,
+> your login is durable: it only ends if *you* revoke access, you change your Google password, or
+> you go 6 months without using it.
+>
+> **"But it says my app is unverified!"** Expected, and fine. Verification only matters if you're
+> handing the app out to *other people*. This is **your own app, on your own account, used only by
+> you.** When authorizing, click **Advanced → Go to {app name} (unsafe)**. That warning is aimed at
+> people using someone *else's* app — not at you using your own.
+>
+> **"Can't I just use a 16-character App Password instead?"** No — and that's Google's rule, not ours.
+> App Passwords only work for IMAP/SMTP (old mail protocols). This talks to the Gmail, Calendar,
+> Drive, Docs and Sheets **APIs**, and those accept **OAuth only**. No password or key can connect to
+> them. Publishing the app is how you get a permanent connection.
 
 ✅ **Done when:** the consent screen is configured and (recommended) published to production, or your
 email is added as a test user.
